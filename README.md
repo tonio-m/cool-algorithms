@@ -1,6 +1,6 @@
 # Cool algorithms
 
-Some practical applications to classic algorithms I've been studying. Beautiful stuff.
+Some practical applications to classical algorithms I've been studying. Beautiful stuff.
 
 Would love to give more context to them or maybe turn some into essays instead of raw code. But I'm too lazy for now.
 
