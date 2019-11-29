@@ -56,3 +56,4 @@ if __name__ == '__main__':
     e = Expression()
     e.from_string('((Q∧S)⊃((S∨R)∨R))')
     e.traverse()
+
