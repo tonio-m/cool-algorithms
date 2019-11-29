@@ -1,5 +1,6 @@
 from random import randint
 
+
 class Node :
 	def __init__(self,value):
 		self.value = value
