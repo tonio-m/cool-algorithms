@@ -5,38 +5,53 @@ class Symbol:
         self.right = None
 
     def parse_string(self,string):
-        if len(string) is 1:
-            self.value = string
+        errormsg = "it's not a well-formed formula"
+        if len(string) is 0:
+            raise Exception(errormsg)
+        if string[0] is '¬':
+            self.value = '¬'
+            self.right = Symbol()
+            self.right.parse_string(string[1:])
             return
-        if string[0] is '(' and string[-1] is ')':
-            string = string[1:-1]
+        
+        if len(string) is 1:
+            if 65 <= ord(string) <= 90:
+                self.value = string
+                return
+        
+        string = string[1:-1]
+            
         depth = 0
         for i in range(len(string)):
             c = string[i]
-            if c is "(":
+            if c is '(':
                 depth += 1
-            elif c is ")":
-                depth -=1
+            elif c is ')':
+                depth -= 1
             
-            if self.isoperator(c) and depth == 0:
+            if self.isbinaryoperator(c) and depth == 0:
                 self.value = c
-                if len(string[:i]) is not 0:
-                    self.left = Symbol()
-                    self.left.parse_string(string[:i])
-                if len(string[i+1:]) is not 0:
-                    self.right = Symbol()
-                    self.right.parse_string(string[i+1:])
+                self.left = Symbol()
+                self.left.parse_string(string[:i])
+                self.right = Symbol()
+                self.right.parse_string(string[i+1:])
+                return
+        raise Exception(errormsg)
 
-    def visit(self):
+    def visit(self, lvl = ''):
+        if self.isbinaryoperator(self.value):
+            print(lvl + '(')
         if self.left is not None:
-            self.left.visit()
-        print(self.value)
+            self.left.visit(lvl + '\t')
+        print(lvl + self.value)
         if self.right is not None:
-            self.right.visit()
+            self.right.visit(lvl + '\t')
+        if self.isbinaryoperator(self.value):
+            print(lvl + ')')
 
     @staticmethod
-    def isoperator(char):
-        if char in ['⊃','⇔','∧','∨','¬']:
+    def isbinaryoperator(char):
+        if char in ['⊃','⇔','∧','∨']:
             return True
         return False
 
