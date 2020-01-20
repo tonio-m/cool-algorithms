@@ -19,6 +19,8 @@ class Symbol:
                 self.value = string
                 return
         
+        if not (string[0] is '(' and string[-1] is ')'):
+            raise Exception(errormsg)
         string = string[1:-1]
             
         depth = 0
